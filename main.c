@@ -36,14 +36,14 @@ int main()
     system("cls");
     float total = 0;
     int invoiceFound = 0;
-    printf("\n********** Unife Restaurant **********\n");
-    printf("\nPlease select your prefered operation");
-    printf("\n\n1.Generate Invoice");
-    printf("\n2.Show all Invoices");
-    printf("\n3.Search Invoice");
-    printf("\n4.Exit");
+    printf("\n********** Ristorante Unife **********\n");
+    printf("\nseleziona l'operazione desiderata");
+    printf("\n\n1.Genera Fattura");
+    printf("\n2.Mostra tutte le Fatture");
+    printf("\n3.Cerca Fattura");
+    printf("\n4.Esci");
 
-    printf("\n\nYour choice: ");
+    printf("\n\nLa tua scelta: ");
     scanf("%d",&opt);
     fgetc(stdin);
 
@@ -53,22 +53,22 @@ int main()
     {
         case 1:
         system("cls");
-        printf("\nPlease enter the name of the customer:\t");
+        printf("\ninserisci il nome del cliente:\t");
         fgets(ord.customer,50,stdin);
         ord.customer[strlen(ord.customer)-1] = 0;
         strcpy(ord.date,__DATE__);
-        printf("\nPlease enter the number of items:\t");
+        printf("\ninserisci il numero di articoli:\t");
         scanf("%d",&n);
         ord.numOfItems = n;
         for(int i=0;i<n;i++){
             fgetc(stdin);
             printf("\n\n");
-            printf("Please enter the item %d:\t",i+1);
+            printf("inserisci l'articolo %d:\t",i+1);
             fgets(ord.itm[i].item,20,stdin);
             ord.itm[i].item[strlen(ord.itm[i].item)-1]=0;
-            printf("Please enter the quantity:\t");
+            printf("inserisci la quantità:\t");
             scanf("%d",&ord.itm[i].qty);
-            printf("Please enter the unit price:\t");
+            printf("inserisci il prezzo unitario:\t");
             scanf("%f",&ord.itm[i].price);
             total += ord.itm[i].qty * ord.itm[i].price;
         }
@@ -81,7 +81,7 @@ int main()
         }
         generateBillFooter(total);
 
-        printf("\nDo you want to save the invoice [y/n]:\t");
+        printf("\nVuoi salvare la fattura [y/n]:\t");
         scanf("%s",&saveBill);
 
         if(saveBill == 'y')
@@ -89,9 +89,9 @@ int main()
             fp = fopen("RestaurantBill.dat","a+");
             fwrite(&ord,sizeof(struct orders),1,fp);
             if(fwrite != 0)
-            printf("\nSuccessfully saved");
+            printf("\nSalvato con successo");
             else 
-            printf("\nError saving");
+            printf("\nErrore durante il salvataggio");
             fclose(fp);
         }
         break;
@@ -99,7 +99,7 @@ int main()
         case 2:
         system("cls");
         fp = fopen("RestaurantBill.dat","r");
-        printf("\n  *****Your Previous Invoices*****\n");
+        printf("\n  *****Le tue fatture precedenti*****\n");
         while(fread(&order,sizeof(struct orders),1,fp))
         {
             float tot = 0;
@@ -115,12 +115,12 @@ int main()
         break;
 
         case 3:
-        printf("Enter the name of the customer:\t");
+        printf("Inserisci il nome del cliente:\t");
         fgets(name,50,stdin);
         name[strlen(name)-1] = 0;
         system("cls");
         fp = fopen("RestaurantBill.dat","r");
-        printf("\t*****Invoice of %s*****",name);
+        printf("\t*****Fattura di %s*****",name);
         while(fread(&order,sizeof(struct orders),1,fp))
         {
             float tot = 0;
@@ -136,25 +136,25 @@ int main()
         }
         if(!invoiceFound)
         {
-            printf("Sorry the invoice for %s doesnot exists",name);
+            printf("la fattura per %s non esiste",name);
         }
 
         fclose(fp);
         break;
 
     case 4:
-    printf("\n\t\t Thank you :)");
+    printf("\n\t\t Grazie :)");
     exit(0);
     break;
 
     default:
-    printf("Sorry invalid option");
+    printf("opzione non valida");
     break;
     }
-    printf("\nDo you want to perform another operation?[y/n]:\t");
+    printf("\nVuoi eseguire un'altra operazione?[y/n]:\t");
     scanf("%s",&contFlag);
     }
-    printf("\n\t\t Thank you :)");
+    printf("\n\t\t Grazie :)");
     printf("\n\n");
 
     return 0;
@@ -163,13 +163,13 @@ int main()
 void generateBillHeader(char name[50],char date[30])
 {
     printf("\n\n");
-        printf("\n********** Unife Restaurant **********\n");
+        printf("\n********** Ristorante Unife **********\n");
         printf("--------------------------------------\n");
-        printf("Date: %s",date);
-        printf("\nInvoice To: %s",name);
+        printf("Data: %s",date);
+        printf("\nFattura a: %s",name);
         printf("\n\n");
         printf("--------------------------------------\n");
-        printf("Items\t\tQty\t\tTotal\t\t\n");
+        printf("Articoli\t\tQtà\t\tTotale\t\t\n");
         printf("--------------------------------------\n");
         printf("\n");
 }
@@ -181,8 +181,6 @@ void generateBillBody(char item[30],int qty, float price)
     printf("%.2f\t\t",qty * price); 
     printf("\n");
 }
-
-
 
 void generateBillFooter(float total)
 {
